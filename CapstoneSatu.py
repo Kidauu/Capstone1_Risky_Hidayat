@@ -182,22 +182,35 @@ def ubahProduk():
                     if keyword == 'nama':
                         while True:
                             value = input('Masukkan nama produk baru: ').title()
-                            if value:
-                                if any(cek[0].lower() == value.lower() for cek in daftarProduk if cek != produk):
+                            if value and len(value) <= 20:
+                                # Memeriksa apakah ada duplikasi nama produk
+                                duplicated = False
+                                for cek in daftarProduk:
+                                    if cek != produk and cek[0].lower() == value.lower():
+                                        duplicated = True
+                                        break
+                                if duplicated:
                                     print('Nama produk sudah ada. Tidak diperbolehkan adanya duplikasi.')
-                                    continue
-                                produk[0] = value
-                                break
+                                else:
+                                    produk[0] = value
+                                    break
                             else:
-                                print('Nama produk tidak boleh kosong.')
+                                print('Nama produk tidak boleh kosong dan maksimal 20 karakter.')
                     elif keyword == 'merk':
                         while True:
                             value = input('Masukkan merk produk baru: ').title()
-                            if value:
+                            if value and len(value) <= 20:
                                 produk[1] = value
                                 break
                             else:
-                                print('Merk produk tidak boleh kosong.')
+                                print('Merk produk tidak boleh kosong dan maksimal 20 karakter.')
+                    elif keyword == 'merk':
+                        value = input('Masukkan merk produk baru (maksimal 20 karakter): ').title()
+                        if value and len(value) <= 20:
+                            produk[1] = value
+                            break
+                        else:
+                            print('Merk produk tidak boleh kosong dan maksimal 20 karakter.')
                     elif keyword == 'stok':
                         while True:
                             value = input('Masukkan jumlah stok produk baru: ')
