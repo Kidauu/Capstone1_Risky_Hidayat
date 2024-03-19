@@ -22,7 +22,6 @@ def menuUtama():
     print('5. Membeli Produk')
     print('6. Exit Program')
 
-
 keranjangBelanja = []  # Menyimpan barang yang dibeli oleh pelanggan
 
 # Menampilkan pilihan kategori produk
@@ -56,7 +55,6 @@ def tampilkanProdukKategori(kategori):
     else:
         print(f'Tidak ada produk dalam kategori {kategori}.')
         
-
 # Mencari produk berdasarkan nama
 def cariProduk(nama):
     data = []
@@ -183,10 +181,8 @@ def ubahProduk():
                     keyword = input('Keyword: ').lower()
                     if keyword == 'nama':
                         while True:
-                            value = input('Masukkan nama produk baru: ')
+                            value = input('Masukkan nama produk baru: ').title()
                             if value:
-                                # Periksa duplikasi nama produk
-                                # variable cek digunakan untuk merepresentasikan setiap elemen dalam daftar produk saat melakukan iterasi
                                 if any(cek[0].lower() == value.lower() for cek in daftarProduk if cek != produk):
                                     print('Nama produk sudah ada. Tidak diperbolehkan adanya duplikasi.')
                                     continue
@@ -196,7 +192,7 @@ def ubahProduk():
                                 print('Nama produk tidak boleh kosong.')
                     elif keyword == 'merk':
                         while True:
-                            value = input('Masukkan merk produk baru: ')
+                            value = input('Masukkan merk produk baru: ').title()
                             if value:
                                 produk[1] = value
                                 break
@@ -229,25 +225,24 @@ def ubahProduk():
                     else:
                         print('Keyword tidak valid. Harap masukkan salah satu dari: nama, merk, stok, atau harga.')
                         break
-                    checker = input('Apakah ingin menyimpan perubahan? (y/t): ').lower()
-                    if checker == 'y':
+                    checker = input('Apakah Anda yakin ingin mengubah produk ini? (y/t): ').lower()
+                    while checker not in ['y', 't']:  
+                        print('Input tidak valid. Silahkan masukkan "y" untuk ya atau "t" untuk tidak.')
+                        checker = input('Apakah ingin mengubah yang lain? (y/t): ').lower()
+                    if checker == 't':
+                        print('Perubahan produk tidak disimpan.')
+                        tampilkanSemuaProduk()
+                        break
+                    elif checker == 'y':
                         daftarProduk[indexProduk] = produk
                         print('Perubahan produk berhasil disimpan.')
                         tampilkanSemuaProduk()
                         break
-                    elif checker == 't':
-                        print('Perubahan produk tidak disimpan.')
-                        tampilkanSemuaProduk()
-                        break  
-                    else:
-                        print('Input tidak valid. Silahkan masukkan "y" untuk ya atau "t" untuk tidak.')
-                    break
-                break
+                break  # Kembali ke submenu setelah selesai mengubah produk
             else:
-                print('Nomor produk tidak valid.')
+                print("Nomor produk tidak valid.")
         else:
-            print('Input harus berupa angka. Silahkan masukkan nomor produk yang ingin diubah.')
-
+            print("Nomor produk harus berupa bilangan bulat.")
 
 # Menghapus sebuah produk dari daftar produk
 def hapusProduk():
@@ -263,49 +258,18 @@ def hapusProduk():
                 print("Stok Produk:", daftarProduk[indexProduk][2])
                 print("Harga Produk:", daftarProduk[indexProduk][3])
                 checker = input('Apakah Anda yakin ingin menghapus produk ini? (y/t): ').lower()
-                if checker == 'y':
+                while checker not in ['y', 't']:  
+                    print('Input tidak valid. Silahkan masukkan "y" untuk ya atau "t" untuk tidak.')
+                    checker = input('Apakah ingin menghapus yang lain? (y/t): ').lower()
+                if checker == 't':
+                    print('Penghapusan produk dibatalkan.')
+                    tampilkanSemuaProduk()
+                    break 
+                elif checker == 'y':
                     del daftarProduk[indexProduk]
                     print('Produk berhasil dihapus.')
                     tampilkanSemuaProduk()
-                    break  
-                elif checker == 't':
-                    print('Penghapusan produk dibatalkan.')
-                    tampilkanSemuaProduk()
-                    break  
-                else:
-                    print('Input tidak valid. Silahkan masukkan "y" untuk ya atau "t" untuk tidak.')
-            else:
-                print('Nomor produk tidak valid.')
-        else:
-            print("Input tidak valid. Harap masukkan nomor produk yang sesuai.")
-
-
-
-# Menghapus sebuah produk dari daftar produk
-def hapusProduk():
-    while True:
-        tampilkanSemuaProduk()
-        indexProduk = input("Masukkan Index Produk yang ingin dihapus: ")
-        if indexProduk.isdigit():
-            indexProduk = int(indexProduk)
-            if 0 <= indexProduk < len(daftarProduk):
-                print("Produk yang akan dihapus:")
-                print("Nama Produk:", daftarProduk[indexProduk][0])
-                print("Merk Produk:", daftarProduk[indexProduk][1])
-                print("Stok Produk:", daftarProduk[indexProduk][2])
-                print("Harga Produk:", daftarProduk[indexProduk][3])
-                checker = input('Apakah Anda yakin ingin menghapus produk ini? (y/t): ').lower()
-                if checker == 'y':
-                    del daftarProduk[indexProduk]
-                    print('Produk berhasil dihapus.')
-                    tampilkanSemuaProduk()
-                    break  
-                elif checker == 't':
-                    print('Penghapusan produk dibatalkan.')
-                    tampilkanSemuaProduk()
-                    break  
-                else:
-                    print('Input tidak valid. Silahkan masukkan "y" untuk ya atau "t" untuk tidak.')
+                    break 
             else:
                 print('Nomor produk tidak valid.')
         else:
@@ -361,7 +325,6 @@ def beliProduk():
         total_pembelian += item[2] * item[3]
 
     print(f'Total Pembelian: Rp {total_pembelian:,}')
-
 
     while True:
         pembayaran = input('Masukkan jumlah pembayaran: Rp ')
